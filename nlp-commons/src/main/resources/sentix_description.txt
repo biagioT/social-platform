@@ -1,0 +1,8 @@
+An entry in our lexicon consists in an italian lemma, part-of-speech (noun, verb, adjective, adverb), WordNet synset ID,
+ a positive and a negative score from SentiWordNet, a polarity score ranging from -1 to 1, and an intensity score ranging from 0 to 1. 
+ 
+ Here is an example entry: 
+
+
+
+lemma 	POS 	Wordnet synset ID 	positive score 	negative score 	polarity 	intensity

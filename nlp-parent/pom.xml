@@ -1,0 +1,94 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>it.antonio</groupId>
+	<artifactId>nlp-parent</artifactId>
+	<version>${revision}</version>
+	<packaging>pom</packaging>
+
+
+	<properties>
+		<revision>0.0.1-SNAPSHOT</revision>
+
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<sources.encoding>UTF-8</sources.encoding>
+
+		<deeplearning4j.version>1.0.0-beta4</deeplearning4j.version>
+		<opennlp.version>1.9.1</opennlp.version>
+
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+
+	</properties>
+	
+	<dependencies>
+		<dependency>
+    		<groupId>org.junit.jupiter</groupId>
+    		<artifactId>junit-jupiter-api</artifactId>
+    		<version>5.5.1</version>
+    		<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>it.antonio</groupId>
+				<artifactId>nlp-commons</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+
+
+			<dependency>
+				<groupId>org.deeplearning4j</groupId>
+				<artifactId>deeplearning4j-core</artifactId>
+				<version>${deeplearning4j.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.deeplearning4j</groupId>
+				<artifactId>deeplearning4j-nlp</artifactId>
+				<version>${deeplearning4j.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.nd4j</groupId>
+				<artifactId>nd4j-native-platform</artifactId>
+				<version>${deeplearning4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.deeplearning4j</groupId>
+				<artifactId>arbiter-deeplearning4j</artifactId>
+				<version>${deeplearning4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.deeplearning4j</groupId>
+				<artifactId>arbiter-ui_2.11</artifactId>
+				<version>${deeplearning4j.version}</version>
+			</dependency>
+
+
+			<dependency>
+				<groupId>org.apache.opennlp</groupId>
+				<artifactId>opennlp-tools</artifactId>
+				<version>${opennlp.version}</version>
+			</dependency>
+
+
+			<dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>2.8.5</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-csv</artifactId>
+				<version>1.7</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+</project>
