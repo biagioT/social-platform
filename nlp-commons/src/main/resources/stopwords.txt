@@ -951,6 +951,7 @@ piú
 dopo
 prima
 già
+così
 
 potere
 volere

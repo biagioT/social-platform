@@ -1,6 +1,7 @@
 package it.antonio.nlp;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,14 +17,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class SimpleTokenizer {
+public class SimpleTokenizer implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	/*
 	public static void main(String...args) {
 		SimpleTokenizer tokenizer = SimpleTokenizer.create();
 		String[] output = tokenizer.tokenize("che ci frega di mario #monti, noi sig.re abbiamo mario balotelli!");
 		//String[] output = tokenizer.tokenize(":( il U.s.a Sig.re #ok ilpizze@hotmai.net http://www.google.com/ok/no?tes=tu Spiezia 24,5 12/34/1998 another@gmai.dot :) non-va-bene ");
 		System.out.println(Arrays.toString(output));
-	}
+	}*/
 	
 	
 	private AbbreviatonsTrie abbreviations;
@@ -206,8 +209,10 @@ public class SimpleTokenizer {
 		return null;
 	}
 
-	private static class AbbreviatonsTrie {
+	private static class AbbreviatonsTrie implements Serializable{
 
+		private static final long serialVersionUID = 1L;
+		
 		public TrieNode root;
 		
 		public AbbreviatonsTrie() {
@@ -283,7 +288,9 @@ public class SimpleTokenizer {
 		}
 
 		
-		private class TrieNode {
+		private class TrieNode implements Serializable {
+
+			private static final long serialVersionUID = 1L;
 
 			public final int ALPHABET = 26;
 

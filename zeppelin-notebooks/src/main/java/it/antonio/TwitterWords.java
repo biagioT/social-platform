@@ -23,6 +23,8 @@ import org.bson.Document;
 import com.mongodb.spark.MongoSpark;
 import com.mongodb.spark.rdd.api.java.JavaMongoRDD;
 
+import it.antonio.nlp.SimpleTokenizer;
+import it.antonio.nlp.StopWords;
 import scala.Tuple2;
 
 public class TwitterWords implements ZeppelinExecutor {
@@ -59,6 +61,9 @@ public class TwitterWords implements ZeppelinExecutor {
 	 public void execute(SparkContext sc, SQLContext sqlContext) {
 		 JavaSparkContext jsc = new JavaSparkContext(sc);
 				JavaMongoRDD<Document> rdd = MongoSpark.load(jsc);
+			
+			SimpleTokenizer tokenizer = SimpleTokenizer.create();	
+			StopWords stopWords = StopWords.create();
 		 	
 		 	// filtered on mongo before load to spark
 		 	LocalDateTime dateTime = LocalDateTime.now().minusHours(8);
@@ -70,8 +75,10 @@ public class TwitterWords implements ZeppelinExecutor {
 		 	
 		 	JavaRDD<String> lines = filteredDocuments.map(d -> d.getString("text"));
 		 	
-		 	JavaRDD<String> words = lines.flatMap(s -> Arrays.asList(SPACE.split(s)).iterator());
-	        
+		 	JavaRDD<String> words = lines.flatMap(s -> Arrays.asList(tokenizer.tokenize(s)).iterator())
+		 		.map(w -> w.toLowerCase())
+		 		.filter(w -> w.length() > 3 && !w.equals("rt") && !stopWords.isStopWord(w));
+		 	
 		 	JavaPairRDD<String, Integer> wordAsTuple = words.mapToPair(word -> new Tuple2<>(word, 1));
 	        
 		 	JavaPairRDD<String, Integer> wordWithCount = wordAsTuple.reduceByKey((Integer i1, Integer i2)->i1 + i2);
