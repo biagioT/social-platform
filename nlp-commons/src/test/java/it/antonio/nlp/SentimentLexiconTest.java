@@ -1,6 +1,6 @@
 package it.antonio.nlp;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class SentimentLexiconTest {
@@ -14,8 +14,8 @@ class SentimentLexiconTest {
 		
 		System.out.println(sl.sentiment("bello").positive + " " + sl.sentiment("bello").negative);
 		
-		Assert.assertTrue(sl.sentiment("bello").positive > sl.sentiment("bello").negative);
-		Assert.assertTrue(sl.sentiment("brutto").positive < sl.sentiment("brutto").negative);
+		Assertions.assertTrue(sl.sentiment("bello").positive > sl.sentiment("bello").negative);
+		Assertions.assertTrue(sl.sentiment("brutto").positive < sl.sentiment("brutto").negative);
 		
 	}
 
