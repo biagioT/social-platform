@@ -49,6 +49,10 @@ public class TwitterSentiment implements ZeppelinExecutor {
 
 	}
 
+	public static String word="bologna"; 
+	
+	
+	
 	public static SentimentRNN rnn;
 	{
 		try {
@@ -74,7 +78,7 @@ public class TwitterSentiment implements ZeppelinExecutor {
 
 		JavaMongoRDD<Document> filteredDocuments = rdd.withPipeline(Collections.singletonList(mongoQuery));
 
-		JavaRDD<String> lines = filteredDocuments.map(d -> d.getString("text"));
+		JavaRDD<String> lines = filteredDocuments.map(d -> d.getString("text")).filter(text-> text.toLowerCase().contains(word.toLowerCase()));
 
 		JavaRDD<SentimentData> output = lines.map(t -> {
 			SentimentData data = new SentimentData();
