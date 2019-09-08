@@ -2,14 +2,16 @@ package it.antonio.nlp;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.stream.Stream;
 
 import opennlp.tools.namefind.NameFinderME;
 import opennlp.tools.namefind.TokenNameFinderModel;
 import opennlp.tools.util.Span;
 
-public class NerFinder {
+public class NerFinder implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	NameFinderME nameFinder;
 	
 	public NerFinder(NameFinderME nameFinder) {

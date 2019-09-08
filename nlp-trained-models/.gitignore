@@ -32,3 +32,5 @@ release.properties
 pom.xml.releaseBackup
 pom.xml.tag
 /word2vec.dat
+/network.dat
+/network_stats.dat

@@ -1,13 +1,15 @@
 package it.antonio.nlp;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import it.antonio.nlp.NLPPipeline.Token;
 
-public class SentenceRewriter {
+public class SentenceRewriter implements Serializable {
 
 
+	private static final long serialVersionUID = 1L;
 	public List<String> rewrite(List<Token> tokens) {
 		
 		List<String> rewerited = new ArrayList<String>();

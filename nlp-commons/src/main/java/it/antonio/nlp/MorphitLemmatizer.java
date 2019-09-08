@@ -4,11 +4,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MorphitLemmatizer  {
+public class MorphitLemmatizer implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private final Map<String, String> lemmas;
 
 	public MorphitLemmatizer(Map<String, String> lemmas) {

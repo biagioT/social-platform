@@ -52,7 +52,7 @@
 		</dependency>
 		<dependency>
 			<groupId>it.antonio</groupId>
-			<artifactId>nlp-commons</artifactId>
+			<artifactId>nlp-ml</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		

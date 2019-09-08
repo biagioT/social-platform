@@ -1,6 +1,7 @@
 package it.antonio.nlp.dl4j;
 
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -13,8 +14,9 @@ import it.antonio.nlp.NLPPipeline;
 import it.antonio.nlp.NLPPipeline.Token;
 import it.antonio.nlp.SentenceRewriter;
 
-public class NLPTokenizerFactory implements TokenizerFactory{
+public class NLPTokenizerFactory implements TokenizerFactory , Serializable{
 
+	private static final long serialVersionUID = 1L;
 	private SentenceRewriter rewriter = new SentenceRewriter();
 	private NLPPipeline pipeline;
 	

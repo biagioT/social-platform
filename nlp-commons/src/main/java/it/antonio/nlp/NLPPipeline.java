@@ -1,5 +1,6 @@
 package it.antonio.nlp;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -9,7 +10,9 @@ import java.util.stream.IntStream;
 
 import it.antonio.nlp.SentimentLexicon.Sentiment;
 
-public class NLPPipeline {
+public class NLPPipeline implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	public static NLPPipeline create() {
 		MorphitLemmatizer lemmatizer = MorphitLemmatizer.create();
