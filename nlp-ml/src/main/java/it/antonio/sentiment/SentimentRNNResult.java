@@ -1,5 +1,9 @@
 package it.antonio.sentiment;
 
+import java.util.List;
+
+import it.antonio.nlp.NLPPipeline.Token;
+
 public class SentimentRNNResult {
 	private double unbiased; 
 	private double positive; 
@@ -8,15 +12,17 @@ public class SentimentRNNResult {
 	
 	private int notFoundInWordVec;
 	
+	private List<Token> tokens;
 	
 	public SentimentRNNResult(double unbiased, double positive, double negative, double mixedFeelings,
-			int notFoundInWordVec) {
+			int notFoundInWordVec, List<Token> tokens) {
 		super();
 		this.unbiased = unbiased;
 		this.positive = positive;
 		this.negative = negative;
 		this.mixedFeelings = mixedFeelings;
 		this.notFoundInWordVec = notFoundInWordVec;
+		this.tokens = tokens;
 	}
 	
 	public double getUnbiased() {
@@ -34,6 +40,10 @@ public class SentimentRNNResult {
 
 	public int getNotFoundInWordVec() {
 		return notFoundInWordVec;
+	}
+
+	public List<Token> getTokens() {
+		return tokens;
 	} 
 	
 	

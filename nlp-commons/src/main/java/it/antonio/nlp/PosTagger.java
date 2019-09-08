@@ -39,15 +39,20 @@ public class PosTagger {
 	}
 
 	public String[] tag(String[] tokens) {
-		String[] tags = possTaggerME.tag(tokens);
+		synchronized (possTaggerME) {
+			String[] tags = possTaggerME.tag(tokens);
+			
+			return tags;
+		}
 		
-		return tags;
 	}
 	
 	public String[] tagSimple(String[] tokens) {
-		String[] tags = possTaggerME.tag(tokens);
+		synchronized (possTaggerME) {
+			String[] tags = possTaggerME.tag(tokens);
 		
-		return Stream.of(tags).map(s -> s.substring(0, 1)).toArray(i-> new String[i]);
+			return Stream.of(tags).map(s -> s.substring(0, 1)).toArray(i-> new String[i]);
+		}
 	}
 
 	public String[] getPosTags() {

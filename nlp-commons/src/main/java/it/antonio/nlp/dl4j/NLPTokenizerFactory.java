@@ -83,6 +83,9 @@ public class NLPTokenizerFactory implements TokenizerFactory , Serializable{
 		public List<String> getTokens() {
 			return rewrited;
 		}
+		public List<Token> getObjectTokens() {
+			return tokens;
+		}
 		
 		@Override
 		public int countTokens() {

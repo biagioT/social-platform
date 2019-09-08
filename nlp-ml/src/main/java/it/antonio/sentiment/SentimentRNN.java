@@ -17,7 +17,9 @@ import org.nd4j.linalg.indexing.INDArrayIndex;
 import org.nd4j.linalg.indexing.NDArrayIndex;
 
 import it.antonio.nlp.NLPPipeline;
+import it.antonio.nlp.NLPPipeline.Token;
 import it.antonio.nlp.dl4j.NLPTokenizerFactory;
+import it.antonio.nlp.dl4j.NLPTokenizerFactory.NLPTokenizer;
 
 public class SentimentRNN implements Constants, Serializable{
 
@@ -36,10 +38,11 @@ public class SentimentRNN implements Constants, Serializable{
 
 
 	public SentimentRNNResult sentiment(String text) {
-		List<String> tokenized = tokenizerFactory.create(text).getTokens();
+		NLPTokenizer tokenizer = (NLPTokenizer) tokenizerFactory.create(text);
+		List<String> tokenized = tokenizer.getTokens();
+		List<Token> tokens = tokenizer.getObjectTokens();
 		
 		
-		System.out.println(tokenized);
 		List<INDArray> wordVectors = new ArrayList<INDArray>();
 		
 		tokenized.forEach(token -> {
@@ -48,6 +51,9 @@ public class SentimentRNN implements Constants, Serializable{
 				wordVectors.add(wordVector);
 			}
 		});
+		if(wordVectors.size() == 0) {
+			return new SentimentRNNResult(0,0,0,0 ,tokenized.size(), tokens );
+		}
 		
 		
 		INDArray features = Nd4j.zeros(1, WORD_SIZE, wordVectors.size());
@@ -81,7 +87,7 @@ public class SentimentRNN implements Constants, Serializable{
 		
 		int notFoundInWordVec = tokenized.size() - wordVectors.size();
 		
-		return new SentimentRNNResult(unbiased, positive, negative, mixedFeelings, notFoundInWordVec);
+		return new SentimentRNNResult(unbiased, positive, negative, mixedFeelings, notFoundInWordVec, tokens);
 		
 	}
 
