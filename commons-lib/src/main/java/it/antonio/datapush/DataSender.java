@@ -1,16 +1,15 @@
 package it.antonio.datapush;
 
-import java.io.Serializable;
-
 import javax.jms.Connection;
 import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.MessageProducer;
-import javax.jms.ObjectMessage;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
+
+import it.antonio.api.JsonUtils;
 
 public class DataSender {
 
@@ -26,8 +25,13 @@ public class DataSender {
 	public void sendData(Object data) {
 		
 		try {
+			
 			String json = JsonUtils.toJson(data);
-			TextMessage message = session.createTextMessage(json);
+			
+			StringBuilder bld = new StringBuilder();
+			bld.append(DataTypes.getFromClass(data.getClass()).name()+"\n");
+			bld.append(json);
+			TextMessage message = session.createTextMessage(bld.toString());
 			producer.send(message);
 			
 		} catch (JMSException e) {

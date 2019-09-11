@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.antonio.api.Survey;
 import it.antonio.datapush.DataSender;
-import it.antonio.datapush.TestData;
 
 @RestController
 public class DataPushController {
@@ -14,8 +14,8 @@ public class DataPushController {
 	@Autowired
 	DataSender sender;
  
-    @PostMapping("/data-push")
-    public String homePage(@RequestBody TestData data ) {
+    @PostMapping("/push-survey")
+    public String survey(@RequestBody Survey data ) {
     	sender.sendData(data);
         return "ok";
     }

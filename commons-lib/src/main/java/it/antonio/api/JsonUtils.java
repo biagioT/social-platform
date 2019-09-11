@@ -1,12 +1,11 @@
-package it.antonio.datapush;
+package it.antonio.api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public final class JsonUtils {
 
-public static Gson gson;
-	
+	private static Gson gson;
 	
 	static {
 		GsonBuilder gsonBuilder = new GsonBuilder();
@@ -21,5 +20,6 @@ public static Gson gson;
     public static <T> T fromJson( final String json, final Class<T> classOfT) {
 	       return gson.fromJson(json, classOfT);
     }
+
 
 }

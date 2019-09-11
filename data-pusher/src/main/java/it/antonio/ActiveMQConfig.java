@@ -11,9 +11,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import it.antonio.api.Survey;
 import it.antonio.datapush.DataReceiver;
 import it.antonio.datapush.DataSender;
-import it.antonio.datapush.TestData;
 
 @Configuration
 public class ActiveMQConfig {
@@ -56,8 +56,8 @@ public class ActiveMQConfig {
 		return DataReceiver.create(url, username, password, new DataReceiver.DataPushListener() {
 			
 			@Override
-			public void onData(TestData data) {
-				System.out.println("RICEVUTO MSG: " + data.test);
+			public void onData(Object data) {
+				System.out.println("RICEVUTO MSG: " + ((Survey) data).getName() + " -- " + ((Survey) data).getData());
 			}
 		});
 	}

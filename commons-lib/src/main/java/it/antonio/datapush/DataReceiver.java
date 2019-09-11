@@ -1,16 +1,21 @@
 package it.antonio.datapush;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
+
 import javax.jms.Connection;
 import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageConsumer;
 import javax.jms.MessageListener;
-import javax.jms.ObjectMessage;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
+
+import it.antonio.api.JsonUtils;
 
 public class DataReceiver {
 	
@@ -53,12 +58,30 @@ public class DataReceiver {
 		dataPushConsumer.setMessageListener(new MessageListener() {
 			
 			public void onMessage(Message message) {
+				BufferedReader br = null;
+				
 				try {
 					TextMessage om = (TextMessage) message;
-					TestData data = JsonUtils.fromJson(om.getText(), TestData.class);
+					br = new BufferedReader(new StringReader(om.getText()));
+					String dataType = br.readLine();
+					
+					String line, json="";
+					while ((line = br.readLine()) != null) {
+						json+=line;
+					}
+					br.close();
+					
+					Object data = JsonUtils.fromJson(json, DataTypes.valueOf(dataType).objectType());
+					
 					l.onData(data);
 					
-				} catch (JMSException e) {
+				} catch (Exception e) {
+					if(br != null)
+						try {
+							br.close();
+						} catch (IOException e1) {
+							throw new RuntimeException(e);
+						}
 					throw new RuntimeException(e);
 				}
 				
@@ -69,6 +92,6 @@ public class DataReceiver {
 	
 	
 	public static interface DataPushListener {
-		void onData(TestData data);
+		void onData(Object data);
 	}
 }

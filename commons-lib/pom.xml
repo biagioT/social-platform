@@ -3,11 +3,17 @@
   <groupId>it.antonio</groupId>
   <artifactId>data-pusher-lib</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  
+  	
+  	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+
+
+	</properties>
   <dependencies>
   		<dependency>
 			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-broker</artifactId>
+			<artifactId>activemq-client</artifactId>
 			<version>5.15.9</version>
 		</dependency>
 		
