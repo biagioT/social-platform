@@ -1,4 +1,4 @@
-package it.antonio;
+package it.antonio.datapush;
 
 import java.util.ArrayList;
 import java.util.List;

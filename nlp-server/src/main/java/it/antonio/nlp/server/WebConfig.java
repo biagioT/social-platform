@@ -1,4 +1,5 @@
-package it.antonio;
+package it.antonio.nlp.server;
+
 
 import java.util.List;
 

@@ -1,0 +1,3 @@
+models :
+   word2vec: /home/antonio/git/social-platform/nlp-trained-models/word2vec.dat
+   rnn: /home/antonio/git/social-platform/nlp-trained-models/network.dat
