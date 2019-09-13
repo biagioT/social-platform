@@ -10,7 +10,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.deeplearning4j.api.storage.StatsStorage;
 import org.deeplearning4j.datasets.iterator.impl.ListDataSetIterator;
@@ -19,9 +18,7 @@ import org.deeplearning4j.models.word2vec.Word2Vec;
 import org.deeplearning4j.nn.conf.GradientNormalization;
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
 import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
-import org.deeplearning4j.nn.conf.layers.GlobalPoolingLayer;
 import org.deeplearning4j.nn.conf.layers.LSTM;
-import org.deeplearning4j.nn.conf.layers.PoolingType;
 import org.deeplearning4j.nn.conf.layers.RnnOutputLayer;
 import org.deeplearning4j.nn.conf.layers.SelfAttentionLayer;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
@@ -44,7 +41,6 @@ import org.nd4j.linalg.lossfunctions.LossFunctions;
 
 import it.antonio.nlp.NLPPipeline;
 import it.antonio.nlp.SentimentLexicon;
-import it.antonio.nlp.SentimentLexicon.Sentiment;
 import it.antonio.nlp.dl4j.NLPTokenizerFactory;
 import it.antonio.tweet.SentipolcSentenceIterator;
 import it.antonio.tweet.TweetData;

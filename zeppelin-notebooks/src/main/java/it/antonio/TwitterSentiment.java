@@ -2,12 +2,19 @@ package it.antonio;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.log4j.Logger;
 import org.apache.spark.SparkConf;
 import org.apache.spark.SparkContext;
@@ -19,12 +26,13 @@ import org.apache.spark.sql.SQLContext;
 import org.apache.spark.sql.SparkSession;
 import org.bson.Document;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.mongodb.spark.MongoSpark;
 import com.mongodb.spark.rdd.api.java.JavaMongoRDD;
 
-import it.antonio.sentiment.Constants;
-import it.antonio.sentiment.SentimentRNN;
-import it.antonio.sentiment.SentimentRNNResult;
+import it.antonio.nlp.commons.SentimentRNNResult;
+import it.antonio.nlp.commons.Token.Sentiment;
 
 public class TwitterSentiment implements ZeppelinExecutor {
 	
@@ -35,12 +43,10 @@ public class TwitterSentiment implements ZeppelinExecutor {
 		SparkConf sparkConf = new SparkConf();
 		sparkConf.setAppName("Twitter to Mongo");
 
-		sparkConf.setMaster("spark://vmi294503.contaboserver.net:7077");
+		sparkConf.setMaster("local[*]");
 		sparkConf.set("spark.mongodb.input.uri", "mongodb://bigdata:pizza001@164.68.123.164/bigdata.twitter");
 		sparkConf.set("spark.mongodb.output.uri", "mongodb://bigdata:pizza001@164.68.123.164/bigdata.twitter");
-		sparkConf.set("spark.sentiment.word2vec.file", Constants.FILE_WORD2VEC);
-		sparkConf.set("spark.sentiment.neturalnet.file", Constants.FILE_NETWORK);
-
+		
 		SparkContext sc = new SparkContext(sparkConf);
 
 		SparkSession sparkSession = SparkSession.builder().config(sparkConf).getOrCreate();
@@ -50,7 +56,7 @@ public class TwitterSentiment implements ZeppelinExecutor {
 		tw.execute(sc, sqlcontext);
 
 		Dataset<Row> sqlDF = sqlcontext.sql("SELECT * FROM sentiment");
-		sqlDF.show();
+		sqlDF.show(false);
 
 	}
 
@@ -58,44 +64,10 @@ public class TwitterSentiment implements ZeppelinExecutor {
 	
 	
 	
-	public static SentimentRNN rnn;
-	{
-		
-
-	}
-
+	
 	@Override
 	public void execute(SparkContext sc, SQLContext sqlContext) {
-		if(rnn == null) {
-			synchronized (sc) {
-				if(rnn == null) {
-					try {
-						File word2vec = new File(sc.getConf().get("spark.sentiment.word2vec.file"));
-						File neuralNetwork = new File(sc.getConf().get("spark.sentiment.neturalnet.file"));
-						Logger.getRootLogger().info("Loading Sentiment RNN");
-						rnn = SentimentRNN.create(word2vec, neuralNetwork);
-						
-						Runtime runtime = Runtime.getRuntime();
-
-						NumberFormat format = NumberFormat.getInstance();
-
-						long maxMemory = runtime.maxMemory();
-						long allocatedMemory = runtime.totalMemory();
-						long freeMemory = runtime.freeMemory();
-
-						Logger.getRootLogger().info("free memory: " + format.format(freeMemory / 1024) );
-						Logger.getRootLogger().info("allocated memory: " + format.format(allocatedMemory / 1024));
-						Logger.getRootLogger().info("max memory: " + format.format(maxMemory / 1024) );
-						Logger.getRootLogger().info("total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024));
-					} catch (IOException | URISyntaxException e) {
-						throw new RuntimeException(e);
-					}
-					
-				}
-			
-			}
-			
-		}
+		
 		
 		
 		JavaSparkContext jsc = new JavaSparkContext(sc);
@@ -103,7 +75,7 @@ public class TwitterSentiment implements ZeppelinExecutor {
 		JavaMongoRDD<Document> rdd = MongoSpark.load(jsc);
 
 		// filtered on mongo before load to spark
-		LocalDateTime dateTime = LocalDateTime.now().minusHours(8);
+		LocalDateTime dateTime = LocalDateTime.now().minusHours(3);
 
 		String isoDate = DateTimeFormatter.ISO_DATE_TIME.format(dateTime);
 		Document mongoQuery = Document.parse("{ $match: { createdAt : { $gte : \"" + isoDate + "\" } } }");
@@ -112,20 +84,36 @@ public class TwitterSentiment implements ZeppelinExecutor {
 
 		JavaRDD<String> lines = filteredDocuments.map(d -> d.getString("text")).filter(text-> text.toLowerCase().contains(word.toLowerCase()));
 
-		JavaRDD<SentimentData> output = lines.map(t -> {
+		
+		JavaRDD<SentimentData> sentimentData = lines.map(t -> {
+			
+			
+			HttpClient client = new DefaultHttpClient();
+			HttpPost post = new HttpPost("http://localhost:8080/sentiment");
+			post.setEntity(new StringEntity(t));
+			HttpResponse output = client.execute(post);
+			
+			if(output.getStatusLine().getStatusCode() != 200) {
+				throw new IllegalStateException(output.getStatusLine().getStatusCode() +  " " + output.getStatusLine().getReasonPhrase());
+			}
+			
+			InputStream content = output.getEntity().getContent();
+			
+			Gson gson = new Gson();
+			SentimentRNNResult result = gson.fromJson(new InputStreamReader(content), SentimentRNNResult.class);
 			SentimentData data = new SentimentData();
-			SentimentRNNResult result = rnn.sentiment(t);
-
+			
 			data.text = t;
 			data.positive = result.getPositive();
 			data.negative = result.getNegative();
 			data.unbiased = result.getUnbiased();
 			data.mixedFeelings = result.getMixedFeelings();
-			data.notFoundInWordVec = result.getNotFoundInWordVec();
+			data.notFoundInWordVec = result.getNotFoundInWordVec();		
+
 			return data;
 		});
 
-		Dataset<Row> df = sqlContext.createDataFrame(output, SentimentData.class);
+		Dataset<Row> df = sqlContext.createDataFrame(sentimentData, SentimentData.class);
 
 		df.createOrReplaceTempView("sentiment");
 	}

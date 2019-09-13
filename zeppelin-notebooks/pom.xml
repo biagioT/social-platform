@@ -52,7 +52,12 @@
 		</dependency>
 		<dependency>
 			<groupId>it.antonio</groupId>
-			<artifactId>nlp-ml</artifactId>
+			<artifactId>nlp-commons</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>it.antonio</groupId>
+			<artifactId>nlp-pipeline</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		

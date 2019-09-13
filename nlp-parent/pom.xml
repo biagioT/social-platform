@@ -21,21 +21,28 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 
 	</properties>
-	
+
 	<dependencies>
 		<dependency>
-    		<groupId>org.junit.jupiter</groupId>
-    		<artifactId>junit-jupiter-api</artifactId>
-    		<version>5.5.1</version>
-    		<scope>test</scope>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.5.1</version>
+			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>it.antonio</groupId>
+			<artifactId>nlp-commons</artifactId>
+			<version>${revision}</version>
+		</dependency>
+
 	</dependencies>
 
 	<dependencyManagement>
 		<dependencies>
+
 			<dependency>
 				<groupId>it.antonio</groupId>
-				<artifactId>nlp-commons</artifactId>
+				<artifactId>nlp-pipeline</artifactId>
 				<version>${revision}</version>
 			</dependency>
 

@@ -5,8 +5,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
-import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.spark.SparkConf;

@@ -15,12 +15,10 @@ import java.util.stream.Stream;
 
 import org.deeplearning4j.models.paragraphvectors.ParagraphVectors;
 import org.deeplearning4j.text.sentenceiterator.CollectionSentenceIterator;
-import org.nd4j.linalg.api.ndarray.INDArray;
 
 import it.antonio.nlp.NLPPipeline;
 import it.antonio.nlp.SentenceDetector;
 import it.antonio.nlp.StopWords;
-import it.antonio.nlp.NLPPipeline.Token;
 import it.antonio.nlp.dl4j.NLPTokenizerFactory;
 import it.antonio.nlp.train.PaisaSentenceIterator;
 import smile.clustering.KMeans;

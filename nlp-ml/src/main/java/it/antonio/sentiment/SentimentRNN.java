@@ -17,7 +17,8 @@ import org.nd4j.linalg.indexing.INDArrayIndex;
 import org.nd4j.linalg.indexing.NDArrayIndex;
 
 import it.antonio.nlp.NLPPipeline;
-import it.antonio.nlp.NLPPipeline.Token;
+import it.antonio.nlp.commons.SentimentRNNResult;
+import it.antonio.nlp.commons.Token;
 import it.antonio.nlp.dl4j.NLPTokenizerFactory;
 import it.antonio.nlp.dl4j.NLPTokenizerFactory.NLPTokenizer;
 
