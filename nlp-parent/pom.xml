@@ -19,7 +19,6 @@
 
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-
 	</properties>
 
 	<dependencies>
@@ -29,11 +28,7 @@
 			<version>5.5.1</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>it.antonio</groupId>
-			<artifactId>nlp-commons</artifactId>
-			<version>${revision}</version>
-		</dependency>
+
 
 	</dependencies>
 
@@ -45,7 +40,11 @@
 				<artifactId>nlp-pipeline</artifactId>
 				<version>${revision}</version>
 			</dependency>
-
+			<dependency>
+				<groupId>it.antonio</groupId>
+				<artifactId>nlp-commons</artifactId>
+				<version>${revision}</version>
+			</dependency>
 
 
 			<dependency>
@@ -98,4 +97,5 @@
 
 		</dependencies>
 	</dependencyManagement>
+	
 </project>

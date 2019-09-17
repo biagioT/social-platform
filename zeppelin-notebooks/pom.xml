@@ -33,9 +33,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.apache.bahir</groupId>
-			<artifactId>spark-streaming-twitter_2.11</artifactId>
-			<version>2.3.3</version>
+			<groupId>org.twitter4j</groupId>
+    <artifactId>twitter4j-core</artifactId>
+    <version>4.0.6</version>
 
 		</dependency>
 
