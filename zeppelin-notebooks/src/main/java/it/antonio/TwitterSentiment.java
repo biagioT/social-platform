@@ -1,11 +1,7 @@
 package it.antonio;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URISyntaxException;
-import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
@@ -15,7 +11,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.log4j.Logger;
 import org.apache.spark.SparkConf;
 import org.apache.spark.SparkContext;
 import org.apache.spark.api.java.JavaRDD;
@@ -27,12 +22,10 @@ import org.apache.spark.sql.SparkSession;
 import org.bson.Document;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.mongodb.spark.MongoSpark;
 import com.mongodb.spark.rdd.api.java.JavaMongoRDD;
 
 import it.antonio.nlp.commons.SentimentRNNResult;
-import it.antonio.nlp.commons.Token.Sentiment;
 
 public class TwitterSentiment implements ZeppelinExecutor {
 	
@@ -46,6 +39,7 @@ public class TwitterSentiment implements ZeppelinExecutor {
 		sparkConf.setMaster("local[*]");
 		sparkConf.set("spark.mongodb.input.uri", "mongodb://bigdata:pizza001@164.68.123.164/bigdata.twitter");
 		sparkConf.set("spark.mongodb.output.uri", "mongodb://bigdata:pizza001@164.68.123.164/bigdata.twitter");
+		sparkConf.set("spark.sentiment.uri", "http://localhost:8080/sentiment");
 		
 		SparkContext sc = new SparkContext(sparkConf);
 
@@ -58,6 +52,8 @@ public class TwitterSentiment implements ZeppelinExecutor {
 		Dataset<Row> sqlDF = sqlcontext.sql("SELECT * FROM sentiment");
 		sqlDF.show(false);
 
+		Dataset<Row> count = sqlcontext.sql("SELECT count(*) FROM sentiment");
+		count.show(false);
 	}
 
 	public String word="bologna"; 
@@ -84,12 +80,12 @@ public class TwitterSentiment implements ZeppelinExecutor {
 
 		JavaRDD<String> lines = filteredDocuments.map(d -> d.getString("text")).filter(text-> text.toLowerCase().contains(word.toLowerCase()));
 
-		
+		String sentimentURI =sc.conf().get("spark.sentiment.uri");
 		JavaRDD<SentimentData> sentimentData = lines.map(t -> {
 			
 			
 			HttpClient client = new DefaultHttpClient();
-			HttpPost post = new HttpPost("http://localhost:8080/sentiment");
+			HttpPost post = new HttpPost(sentimentURI);
 			post.setEntity(new StringEntity(t));
 			HttpResponse output = client.execute(post);
 			
