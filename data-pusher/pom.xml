@@ -2,38 +2,15 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>it.antonio</groupId>
+	
 	<artifactId>data-pusher</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	
+	<parent>
+		<groupId>it.antonio</groupId>
+		<artifactId>cloud-dependencies</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
 
-	<properties>
-		<spring.boot>2.1.5.RELEASE</spring.boot>
-		<spring.cloud>Greenwich.RELEASE</spring.cloud>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-
-
-	</properties>
-
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>${spring.cloud}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-dependencies</artifactId>
-				<version>${spring.boot}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 
 	<dependencies>
 		<dependency>
@@ -47,6 +24,15 @@
 			</exclusions>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
+		
+		<dependency>
 			<groupId>org.apache.activemq</groupId>
 			<artifactId>activemq-broker</artifactId>
 		</dependency>
@@ -56,14 +42,14 @@
 		</dependency>
 
 		<dependency>
-			<groupId>it.antonio</groupId>
-			<artifactId>data-pusher-lib</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-
-		</dependency>
-		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
+
+		</dependency>
+
+		<dependency>
+			<groupId>it.antonio</groupId>
+			<artifactId>data-pusher-lib</artifactId>
 
 		</dependency>
 
@@ -72,20 +58,14 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>${spring.boot}</version>
-				<configuration>
-					<finalName>${project.artifactId}</finalName>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>repackage</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+				</plugin>
 		</plugins>
 	</build>
 

@@ -2,10 +2,7 @@ package it.antonio.sentiment;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,11 +16,9 @@ import org.deeplearning4j.text.sentenceiterator.SentenceIterator;
 
 import it.antonio.nlp.NLPPipeline;
 import it.antonio.nlp.SentenceDetector;
-import it.antonio.nlp.dl4j.NLPTokenizerFactory;
+import it.antonio.nlp.WrapperSentenceIterator;
 import it.antonio.nlp.train.PaisaSentenceIterator;
 import it.antonio.tweet.SentipolcSentenceIterator;
-import it.antonio.tweet.TweetData;
-import it.antonio.util.WrapperSentenceIterator;
 
 public class Word2VecTrainer implements Constants {
 	

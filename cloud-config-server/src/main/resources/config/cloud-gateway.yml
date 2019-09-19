@@ -1,0 +1,8 @@
+server:
+   port: 6092
+eureka:
+   client:
+      serviceUrl:
+         defaultZone: http://localhost:6093/eureka/
+app:
+   version: 0.0.1

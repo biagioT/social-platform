@@ -27,7 +27,7 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 import it.antonio.intent.CsvIntentIterator;
 import it.antonio.intent.IntentIterator;
 import it.antonio.nlp.NLPPipeline;
-import it.antonio.nlp.dl4j.NLPTokenizerFactory;
+import it.antonio.sentiment.NLPTokenizerFactory;
 
 public class ParagraphVectorsIntentClassifier {
 	

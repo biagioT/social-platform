@@ -1,0 +1,10 @@
+server:
+   port: 6081
+eureka:
+   client:
+      serviceUrl:
+         defaultZone: http://localhost:6093/eureka/
+app:
+   version: 0.0.1
+activemq :
+   url : tcp://localhost:61616

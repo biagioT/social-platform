@@ -1,4 +1,4 @@
-package it.antonio.nlp.dl4j;
+package it.antonio.sentiment;
 
 import java.io.InputStream;
 import java.io.Serializable;

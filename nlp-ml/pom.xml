@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>it.antonio</groupId>
 		<artifactId>nlp-parent</artifactId>
-		<version>${revision}</version>
+		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../nlp-parent</relativePath>
 	</parent>
 	

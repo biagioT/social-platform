@@ -1,3 +1,11 @@
+server:
+   port: 6082
+eureka:
+   client:
+      serviceUrl:
+         defaultZone: http://localhost:6093/eureka/
+app:
+   version: 0.0.2
 models :
    word2vec: /home/antonio/git/social-platform/nlp-trained-models/word2vec.dat
    rnn: /home/antonio/git/social-platform/nlp-trained-models/network.dat

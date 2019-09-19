@@ -3,7 +3,7 @@ package it.antonio.tweet;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import it.antonio.util.LazyIterator;
+import it.antonio.nlp.LazyIterator;
 
 public class SentipolcSentenceIterator extends LazyIterator<TweetData>{
 

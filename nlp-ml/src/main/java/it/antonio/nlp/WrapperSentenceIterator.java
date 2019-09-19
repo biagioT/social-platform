@@ -1,4 +1,4 @@
-package it.antonio.util;
+package it.antonio.nlp;
 
 import java.util.function.Function;
 

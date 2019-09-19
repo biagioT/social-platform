@@ -2,18 +2,11 @@ package it.antonio.intent.svm;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.apache.commons.csv.CSVFormat;
@@ -21,17 +14,15 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.io.input.BOMInputStream;
 import org.deeplearning4j.models.paragraphvectors.ParagraphVectors;
-import org.deeplearning4j.models.word2vec.Word2Vec;
 import org.deeplearning4j.text.sentenceiterator.BaseSentenceIterator;
 import org.deeplearning4j.text.sentenceiterator.SentenceIterator;
-import org.junit.jupiter.params.shadow.com.univocity.parsers.common.fields.AllIndexesSelector;
 import org.nd4j.linalg.api.ndarray.INDArray;
 
 import it.antonio.intent.CsvIntentIterator;
 import it.antonio.intent.IntentIterator;
 import it.antonio.intent.pv.MeansBuilder;
 import it.antonio.nlp.NLPPipeline;
-import it.antonio.nlp.dl4j.NLPTokenizerFactory;
+import it.antonio.sentiment.NLPTokenizerFactory;
 import smile.classification.SVM;
 import smile.math.kernel.GaussianKernel;
 

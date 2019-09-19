@@ -41,7 +41,6 @@ import org.nd4j.linalg.lossfunctions.LossFunctions;
 
 import it.antonio.nlp.NLPPipeline;
 import it.antonio.nlp.SentimentLexicon;
-import it.antonio.nlp.dl4j.NLPTokenizerFactory;
 import it.antonio.tweet.SentipolcSentenceIterator;
 import it.antonio.tweet.TweetData;
 

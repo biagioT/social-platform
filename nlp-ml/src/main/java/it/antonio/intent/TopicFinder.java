@@ -19,8 +19,8 @@ import org.deeplearning4j.text.sentenceiterator.CollectionSentenceIterator;
 import it.antonio.nlp.NLPPipeline;
 import it.antonio.nlp.SentenceDetector;
 import it.antonio.nlp.StopWords;
-import it.antonio.nlp.dl4j.NLPTokenizerFactory;
 import it.antonio.nlp.train.PaisaSentenceIterator;
+import it.antonio.sentiment.NLPTokenizerFactory;
 import smile.clustering.KMeans;
 
 public class TopicFinder {
