@@ -1,0 +1,4 @@
+from openjdk:11.0.4-jre-slim
+
+COPY target/data-pusher.jar /opt/cloud/data-pusher.jar
+ENTRYPOINT ["java","-jar","/opt/cloud/data-pusher.jar"]

@@ -20,6 +20,26 @@
 		<javax-activation.version>1.1.1</javax-activation.version>
 		<jaxb-api.version>2.3.1</jaxb-api.version>
 	</properties>
+	
+	<profiles>
+		<profile>
+			<id>locale</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<config.file>classpath:/config/</config.file>
+				<config.host>localhost</config.host>
+			</properties>
+		</profile>
+		<profile>
+			<id>docker</id>
+			<properties>
+				<config.file>file:/opt/cloud/config/</config.file>
+				<config.host>cloud-config-server</config.host>
+			</properties>
+		</profile>
+	</profiles>
 
 	<dependencyManagement>
 		<dependencies>
@@ -43,9 +63,8 @@
 
 			<dependency>
 				<groupId>it.antonio</groupId>
-				<artifactId>data-pusher-lib</artifactId>
+				<artifactId>commons-lib</artifactId>
 				<version>${nlp-lib}</version>
-
 			</dependency>
 			
 			<dependency>
@@ -76,6 +95,13 @@
 	</dependencyManagement>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+	
 		<pluginManagement>
 			<plugins>
 				<plugin>

@@ -1,0 +1,4 @@
+from openjdk:11.0.4-jre-slim
+
+COPY target/cloud-config-server.jar /opt/cloud/cloud-config-server.jar
+ENTRYPOINT ["java","-jar","/opt/cloud/cloud-config-server.jar"]

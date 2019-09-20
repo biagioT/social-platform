@@ -15,23 +15,7 @@
 
 	</properties>
 
-	<profiles>
-		<profile>
-			<id>locale</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<config.file>classpath:/config/</config.file>
-			</properties>
-		</profile>
-		<profile>
-			<id>server</id>
-			<properties>
-				<config.file>file:/opt/cloud/config/</config.file>
-			</properties>
-		</profile>
-	</profiles>
+	
 
 
 
@@ -55,12 +39,24 @@
 
 
 	<build>
+
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
 			</resource>
 		</resources>
+
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<finalName>${project.artifactId}</finalName>
+				</configuration>
+			</plugin>
+		</plugins>
+
 
 
 	</build>

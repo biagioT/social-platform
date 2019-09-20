@@ -1,0 +1,57 @@
+version: '3'
+services:
+   cloud-config-server:
+      container_name: cloud-config-server
+      image: 167.86.83.61:5000/cloud-config-server
+      build:
+         context: ../cloud-config-server
+         dockerfile: ../docker-assembly/Dockerfile-cloud-config-server
+      volumes:
+         - /opt/cloud/config:/opt/cloud/config     
+      ports:
+      - 6091:6091
+      networks:
+      - social-cloud-network
+   cloud-discovery-server:
+      container_name: cloud-discovery-server
+      image: 167.86.83.61:5000/cloud-discovery-server
+      build:
+         context: ../cloud-discovery-server
+         dockerfile: ../docker-assembly/Dockerfile-cloud-discovery-server
+      ports:
+      - 6093:6093
+      networks:
+      - social-cloud-network
+   cloud-gateway-server:
+      container_name: cloud-gateway-server
+      image: 167.86.83.61:5000/cloud-gateway-server
+      build:
+         context: ../cloud-gateway-server
+         dockerfile: ../docker-assembly/Dockerfile-cloud-gateway-server
+      ports:
+      - 6092:6092
+      networks:
+      - social-cloud-network
+   nlp-server:
+      container_name: nlp-server
+      image: 167.86.83.61:5000/nlp-server
+      build:
+         context: ../nlp-server
+         dockerfile: ../docker-assembly/Dockerfile-nlp-server
+      ports:
+      - 6082:6082
+      networks:
+      - social-cloud-network
+   data-pusher:
+      container_name: data-pusher
+      image: 167.86.83.61:5000/data-pusher
+      build:
+         context: ../data-pusher
+         dockerfile: ../docker-assembly/Dockerfile-data-pusher
+      ports:
+      - 6081:6081
+      networks:
+      - social-cloud-network
+networks:
+   social-cloud-network:
+      driver: bridge
