@@ -1,5 +1,6 @@
 package it.antonio.gateway;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -13,18 +14,20 @@ import org.springframework.context.annotation.Bean;
  * @author biagiot
  *
  */
-@EnableDiscoveryClient
 @SpringBootApplication
 public class CloudGatewayApplication {
 
-	private static final String URI_NLP_SERVER = "lb://nlp-server";
-	private static final String URI_DATA_PUSH = "lb://data-pusher";
+	@Value("${routes.nlp-server}")
+	private String nlpServer;
+	@Value("${routes.data-pusher}")
+	private String dataPusher;
+	
 	
 	@Bean
 	public RouteLocator customRouteLocator(final RouteLocatorBuilder builder) {
 		return builder.routes() //
-				.route("nlp-server", r -> r.path("/nlp-server/**").filters(f -> f.preserveHostHeader().rewritePath("/nlp-server/(?<segment>.*)", "/${segment}")).uri(URI_NLP_SERVER)) //
-				.route("data-pusher", r -> r.path("/data-pusher/**").filters(f -> f.rewritePath("/data-pusher/(?<segment>.*)", "/${segment}")).uri(URI_DATA_PUSH)) //
+				.route("nlp-server", r -> r.path("/nlp-server/**").filters(f -> f.preserveHostHeader().rewritePath("/nlp-server/(?<segment>.*)", "/${segment}")).uri(nlpServer)) //
+				.route("data-pusher", r -> r.path("/data-pusher/**").filters(f -> f.rewritePath("/data-pusher/(?<segment>.*)", "/${segment}")).uri(dataPusher)) //
 				.build();
 	}
 

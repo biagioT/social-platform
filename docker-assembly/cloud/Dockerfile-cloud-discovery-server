@@ -1,4 +1,0 @@
-from openjdk:11.0.4-jre-slim
-
-COPY target/cloud-discovery-server.jar /opt/cloud/cloud-discovery-server.jar
-ENTRYPOINT ["java","-jar","/opt/cloud/cloud-discovery-server.jar"]

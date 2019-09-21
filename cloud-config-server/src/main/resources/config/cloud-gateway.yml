@@ -1,9 +1,8 @@
 server:
    port: 6092
-eureka:
-   client:
-      serviceUrl:
-         defaultZone: http://localhost:6093/eureka/
+routes:
+   nlp-server: http://localhost:6082
+   data-pusher: http://localhost:6081	
 app:
    version: 0.0.1
 

@@ -15,16 +15,6 @@ services:
       deploy:
          placement:
             constraints: [node.labels.deploy_server == true]
-   cloud-discovery-server:
-      container_name: cloud-discovery-server
-      image: 167.86.83.61:5000/cloud-discovery-server
-      build:
-         context: ../../cloud-discovery-server
-         dockerfile: ../docker-assembly/cloud/Dockerfile-cloud-discovery-server
-      ports:
-      - 6093:6093
-      networks:
-      - social-cloud-network
    cloud-gateway-server:
       container_name: cloud-gateway-server
       image: 167.86.83.61:5000/cloud-gateway-server
