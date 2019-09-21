@@ -18,13 +18,13 @@ import org.springframework.context.annotation.Bean;
 public class CloudGatewayApplication {
 
 	private static final String URI_NLP_SERVER = "lb://nlp-server";
-	private static final String URI_DATA_PUSH = "lb://data-push";
+	private static final String URI_DATA_PUSH = "lb://data-pusher";
 	
 	@Bean
 	public RouteLocator customRouteLocator(final RouteLocatorBuilder builder) {
 		return builder.routes() //
 				.route("nlp-server", r -> r.path("/nlp-server/**").filters(f -> f.preserveHostHeader().rewritePath("/nlp-server/(?<segment>.*)", "/${segment}")).uri(URI_NLP_SERVER)) //
-				.route("data-push", r -> r.path("/data-push/**").filters(f -> f.rewritePath("/data-push/(?<segment>.*)", "/${segment}")).uri(URI_DATA_PUSH)) //
+				.route("data-pusher", r -> r.path("/data-pusher/**").filters(f -> f.rewritePath("/data-pusher/(?<segment>.*)", "/${segment}")).uri(URI_DATA_PUSH)) //
 				.build();
 	}
 

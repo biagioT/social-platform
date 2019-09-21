@@ -6,3 +6,14 @@ eureka:
          defaultZone: http://localhost:6093/eureka/
 app:
    version: 0.0.1
+
+management:
+   endpoint:
+      gateway:
+         enabled: true
+   endpoints:
+      web:
+         exposure:
+            include: gateway
+
+   

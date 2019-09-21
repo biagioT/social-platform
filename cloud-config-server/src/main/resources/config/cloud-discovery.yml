@@ -1,6 +1,8 @@
 server:
   port: 6093
 eureka:
+   instance:
+      prefer-ip-address: true # necessario per funzionare con docker-swarm
    client:
       registerWithEureka: false
       fetchRegistry: false
