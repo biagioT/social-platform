@@ -1,4 +1,4 @@
-package it.antonio;
+package it.antonio.zeppelin;
 
 import java.io.Serializable;
 

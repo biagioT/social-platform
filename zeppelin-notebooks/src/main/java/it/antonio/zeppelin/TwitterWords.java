@@ -1,4 +1,4 @@
-package it.antonio;
+package it.antonio.zeppelin;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -35,8 +35,6 @@ public class TwitterWords implements ZeppelinExecutor {
 			
 			sparkConf.setMaster("local[2]");
 			sparkConf.set("spark.mongodb.input.uri", "mongodb://bigdata:pizza001@164.68.123.164/bigdata.twitter");
-			sparkConf.set("spark.mongodb.output.uri", "mongodb://bigdata:pizza001@164.68.123.164/bigdata.twitter");
-
 			
 			SparkContext sc = new SparkContext(sparkConf);
 			

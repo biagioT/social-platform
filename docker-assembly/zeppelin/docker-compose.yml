@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  zeppelin:
+    restart: always
+    image: apache/zeppelin:0.8.1
+    ports:
+      - "7077:7077"
+      - "8080:8080"
+    volumes:
+      - /opt/zeppelin/logs:/logs
+      - /opt/zeppelin/notebook:/notebook
+      - /opt/zeppelin/jars:/opt/zeppelin/jars
+    environment:
+      ZEPPELIN_NOTEBOOK_DIR: /notebook
+      ZEPPELIN_LOG_DIR: /logs
+    deploy:
+      placement:
+        constraints: [node.labels.server==high-mem]
+    

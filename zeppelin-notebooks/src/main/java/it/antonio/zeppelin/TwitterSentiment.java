@@ -1,4 +1,4 @@
-package it.antonio;
+package it.antonio.zeppelin;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -113,6 +113,20 @@ public class TwitterSentiment implements ZeppelinExecutor {
 
 		df.createOrReplaceTempView("sentiment");
 	}
+	
+	
+
+	public String getWord() {
+		return word;
+	}
+
+
+
+	public void setWord(String word) {
+		this.word = word;
+	}
+
+
 
 	public static class SentimentData {
 		private double unbiased;
