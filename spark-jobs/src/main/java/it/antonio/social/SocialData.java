@@ -14,7 +14,7 @@ public class SocialData implements Serializable {
 	}
 
 	public boolean typeOf(Class<? extends Serializable> clz) {
-		return clz.isAssignableFrom(clz);
+		return clz.isAssignableFrom(value.getClass());
 	}
 	
 	public <T extends Serializable> T getValue(Class<T> clz) {
