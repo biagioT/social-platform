@@ -94,7 +94,6 @@ public class SocialDataCollectorMongo {
 			
 			tweetsJson.foreachRDD(jsonTweet -> {
 				
-				
 			    MongoSpark.save(jsonTweet, twitterWriteConfig );
 				
 			});
