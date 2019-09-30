@@ -40,8 +40,8 @@ public class SocialDataCollectorMongo {
 			
 			SparkConf sparkConf = new SparkConf();
 			
-			sparkConf.setAppName("Social to Mongo");
-			sparkConf.setMaster("local[2]");
+			sparkConf.set("spark.app.name", "Social to Mongo");
+			sparkConf.set("spark.master","local[2]");
 			
 			sparkConf.set("spark.mongodb.output.uri", "mongodb://bigdata:pizza001@164.68.123.164/bigdata.unused_collection");
 			
