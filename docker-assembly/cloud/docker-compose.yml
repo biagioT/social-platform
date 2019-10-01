@@ -23,6 +23,7 @@ services:
          dockerfile: ../docker-assembly/cloud/Dockerfile-cloud-gateway-server
       ports:
       - 6092:6092
+      - 80:6092
       networks:
       - social-cloud-network
    nlp-server:
@@ -46,6 +47,16 @@ services:
       ports:
          - 6081:6081
          - 61616:61616
+      networks:
+         - social-cloud-network
+   site:
+      container_name: site
+      image: 167.86.83.61:5000/site
+      build:
+         context: ../../site
+         dockerfile: ../docker-assembly/cloud/Dockerfile-site
+      ports:
+         - 6083:80
       networks:
          - social-cloud-network
 networks:

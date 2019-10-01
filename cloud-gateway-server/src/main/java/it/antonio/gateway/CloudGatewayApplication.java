@@ -21,6 +21,8 @@ public class CloudGatewayApplication {
 	private String nlpServer;
 	@Value("${routes.data-pusher}")
 	private String dataPusher;
+	@Value("${routes.site}")
+	private String site;
 	
 	
 	@Bean
@@ -28,6 +30,7 @@ public class CloudGatewayApplication {
 		return builder.routes() //
 				.route("nlp-server", r -> r.path("/nlp-server/**").filters(f -> f.preserveHostHeader().rewritePath("/nlp-server/(?<segment>.*)", "/${segment}")).uri(nlpServer)) //
 				.route("data-pusher", r -> r.path("/data-pusher/**").filters(f -> f.rewritePath("/data-pusher/(?<segment>.*)", "/${segment}")).uri(dataPusher)) //
+				.route("site", r -> r.path("/site/**").filters(f -> f.rewritePath("/site/(?<segment>.*)", "/${segment}")).uri(site)) //
 				.build();
 	}
 
