@@ -3,7 +3,7 @@ server:
 routes:
    nlp-server: http://localhost:6082
    data-pusher: http://localhost:6081	
-   site: http://localhost:6083
+   web-site: http://localhost:6083
 app:
    version: 0.0.1
 
