@@ -3,6 +3,7 @@ package it.antonio.social;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -19,10 +20,11 @@ import com.mongodb.spark.MongoSpark;
 import com.mongodb.spark.config.WriteConfig;
 
 import it.antonio.social.receiver.SocialDataReceiver;
+import it.antonio.social.receivera.config.Config;
 import net.dean.jraw.models.Comment;
 import twitter4j.Status;
 
-public class SocialDataCollectorMongo {
+public class SocialDataCollector {
 
 	public static Gson gson;
 	
@@ -37,10 +39,20 @@ public class SocialDataCollectorMongo {
 	public static void main(String... args) throws InterruptedException, IOException {
 
 		try {
+			if(args.length != 3) {
+				// for test purposes
+				args = new String[] {"http://localhost:6091/social-data-collector.properties" , "root", "toortoor"}; 
+			} 
+			
+			Properties props = Config.load(args[0], args[1], args[2]);
 			
 			SparkConf sparkConf = new SparkConf();
+			props.forEach((k,v) -> sparkConf.set(k.toString(), v.toString()));
 			
-			sparkConf.set("spark.app.name", "Social to Mongo");
+			sparkConf.validateSettings();
+			
+			/*
+			sparkConf.set("spark.app.name", "Social Data Collector");
 			sparkConf.set("spark.master","local[2]");
 			
 			sparkConf.set("spark.mongodb.output.uri", "mongodb://bigdata:pizza001@164.68.123.164/bigdata.unused_collection");
@@ -61,8 +73,11 @@ public class SocialDataCollectorMongo {
 			
 			sparkConf.set("spark.social.reddit.subreddits", "italy, Bologna,Italia");
 			sparkConf.set("spark.social.reddit.mongodb.collection", "reddit-test");
-			
+			*/
 			JavaStreamingContext streamingContext = new JavaStreamingContext(sparkConf, Durations.seconds(3));
+			
+			Logger.getRootLogger().setLevel(Level.ERROR);
+
 			
 			Map<String, String> twitterOverrides = new HashMap<String, String>();
 			twitterOverrides.put("collection", sparkConf.get("spark.social.twitter.mongodb.collection"));
@@ -77,51 +92,48 @@ public class SocialDataCollectorMongo {
 
 			SocialDataReceiver receiver = new SocialDataReceiver(sparkConf);
 			
-			
-			Logger.getRootLogger().setLevel(Level.ERROR);
-
 			JavaReceiverInputDStream<SocialData> stream =streamingContext.receiverStream(receiver);
 			
+			
+			// twitter
 			JavaDStream<Status> tweets = stream.filter(data -> data.typeOf(Status.class))
 												.map(data -> data.getValue(Status.class))
 												.filter(tweet-> "it".equalsIgnoreCase(tweet.getLang()));
 												
 			JavaDStream<Document> tweetsJson = tweets.map(tweet -> {
-				
 				String twitterJSON = gson.toJson(tweet);
 				return Document.parse(twitterJSON);
 			});
 			
 			tweetsJson.foreachRDD(jsonTweet -> {
-				
 			    MongoSpark.save(jsonTweet, twitterWriteConfig );
-				
 			});
 			
+			
+			
+			// reddit
 			JavaDStream<Comment> redditComments =  stream.filter(data -> data.typeOf(Comment.class))
 															.map(data -> data.getValue(Comment.class));
 			
-			
 			JavaDStream<Document> redditCommentsJson = redditComments.map(tweet -> {
-				
 				String twitterJSON = gson.toJson(tweet);
 				return Document.parse(twitterJSON);
 			});
 			
 			redditCommentsJson.foreachRDD(redditCommentRDD -> {
-				
 				MongoSpark.save(redditCommentRDD, redditWriteConfig );
-				
-				
 			});
 
+			
+			
+			
 			streamingContext.start();
 			streamingContext.awaitTermination();
 
 			streamingContext.close();
 		} catch (Throwable t) {
 
-			t.printStackTrace();
+			Logger.getRootLogger().error(t.getMessage(), t);
 		}
 
 	}

@@ -1,0 +1,31 @@
+spark:
+   app:
+      name: Social Data Collector
+   master: local[2]
+   executor:
+      memory: 2G
+      cores: 2
+   mongodb:
+      output:
+         uri: mongodb://bigdata:pizza001@164.68.123.164/bigdata.unused_collection
+   social:
+      twitter:
+         oauth:
+            consumer:
+               key: 1OKXstn92fYjv8l1fgMRasScs
+               secret: 9O272OqMBxI6cuaK3XvKICyRXEWboR19ksyYVbQtXuCrqxAkXb
+            access:
+               token: 18577987-ny9PYtszs172ntg8GncNFTlxrnqnBzLG34Ajz2OgV
+               tokensecret: UbczOyt2FFCcOLFIxgtQeMiLitUTLJGj80lb5AWLKnss7
+         query: bologna, roma,milano,pd,lega,m5s,partito,lega,movimento,attualità,traffico,notizia,notizie,news,bello,brutto,nuovo,emilia,romagna,umbria,elezioni,elezione,salvini,matteo,periferia,xm24
+         mongodb:
+            collection: twitter-test
+      reddit:
+         oauth:
+            user: ilpizze
+            password: p12124545
+            clientid: YBlWgMmCpNGGxQ
+            clientsecret: IDxAHgTKRtdD9Ds2300JUzjRZ94
+         subreddits: italy, Bologna,Italia
+         mongodb:
+            collection: reddit-test			

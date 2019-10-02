@@ -5,7 +5,6 @@ import java.util.Arrays;
 
 import org.apache.log4j.Logger;
 import org.apache.spark.SparkConf;
-import org.apache.spark.streaming.receiver.Receiver;
 
 import it.antonio.social.SocialData;
 import twitter4j.StallWarning;

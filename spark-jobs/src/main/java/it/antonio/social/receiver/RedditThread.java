@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import org.apache.log4j.Logger;
 import org.apache.spark.SparkConf;
 
 import it.antonio.social.SocialData;
@@ -29,42 +30,51 @@ public class RedditThread  extends Thread implements Serializable{
 
 	private SocialDataReceiver receiver;
 	
-	private static List<SubredditReference> subreddits = new LinkedList<SubredditReference>();
-	private static AtomicInteger currentIndex = new AtomicInteger(0);
+	private List<String> queries;
+	private AtomicInteger currentIndex = new AtomicInteger(0);
+	
+	String username;
+	String password;
+	String clientId;
+	String clientSecret;
 	
 	public RedditThread(SparkConf sparkConf, SocialDataReceiver receiver) {
 		super();
 	
 		this.receiver = receiver;
 		
-		UserAgent userAgent = new UserAgent("analyzer", "it.antonio", "v0.1", "ilpizze");
-
-		String username = sparkConf.get("spark.social.reddit.oauth.user");
-		String password = sparkConf.get("spark.social.reddit.oauth.password");
-		String clientId = sparkConf.get("spark.social.reddit.oauth.clientid");
-		String clientSecret = sparkConf.get("spark.social.reddit.oauth.clientsecret");
 		
+		this.username = sparkConf.get("spark.social.reddit.oauth.user");
+		this.password = sparkConf.get("spark.social.reddit.oauth.password");
+		this.clientId = sparkConf.get("spark.social.reddit.oauth.clientid");
+		this.clientSecret = sparkConf.get("spark.social.reddit.oauth.clientsecret");
+		
+	
+		// Authenticate and get a RedditClient instance
+		
+		String queryString = sparkConf.get("spark.social.reddit.subreddits");
+		queries = Arrays.asList(queryString.split(",")).stream().map(String::trim).collect(Collectors.toList());
+
+
+	}
+
+	@Override
+	public void run() {
+		
+		UserAgent userAgent = new UserAgent("analyzer", "it.antonio", "v0.1", "ilpizze");
 		Credentials credentials = Credentials.script(username, password, clientId, clientSecret);
 
 		// This is what really sends HTTP requests
 		NetworkAdapter adapter = new OkHttpNetworkAdapter(userAgent);
 
-		// Authenticate and get a RedditClient instance
+		
 		RedditClient reddit = OAuthHelper.automatic(adapter, credentials);
 		reddit.setLogHttp(false);
 		
-		String queryString = sparkConf.get("spark.social.reddit.subreddits");
-		Arrays.asList(queryString.split(",")).stream().map(String::trim).forEach(subreddit -> {
 		
-			subreddits.add(reddit.subreddit(subreddit));
-		});
+		List<SubredditReference> subreddits = queries.stream().map(q -> reddit.subreddit(q)).collect(Collectors.toList());
 		
 		
-	
-	}
-
-	@Override
-	public void run() {
 		
 		Date lastDate = new Date();
 		
